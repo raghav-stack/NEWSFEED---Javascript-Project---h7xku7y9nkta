@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>saved news</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header class="saved-header">
+        <button onclick="window.location.href = 'index.html';">MY NEWSFEED</button>
+        <button class="saved-news" onclick="showSaved()">SAVED NEWS</button>
+    </header>
+
+    <div class="saved">
+
+    </div>
+
+    <script>
+        function showSaved(){
+            let data = localStorage.getItem("data");
+            if(!data){
+                data = []
+            }else {
+                data = JSON.parse(data);
+            }
+            console.log("function called", data);
+            data.forEach((every) => {
+                if(every){
+                    let div = document.createElement("div");
+                div.classList.add("item");
+                div.innerHTML = `
+                    <div class="title">
+                        <h4>BY ${every?.author}</h4>
+                        <h5>CATEGORY ${every?.category}</h5>
+                    </div>
+                    <div class="details">
+                        <p>
+                         ${every.content} 
+                         <span><a href="${every.url}">READ MORE</a></span>
+                        </p> 
+                    </div>
+                    <div class="flex-end">
+                        <button class="like" onclick="saveNews(event)"><i class="fa fa-heart"> </i></button>
+                    </div>
+                `;
+                document.querySelector(".saved").appendChild(div);
+                }
+                
+            });
+        }
+    </script>
+</body>
+</html>
